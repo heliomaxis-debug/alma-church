@@ -1,0 +1,246 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Users & Auth ─────────────────────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   @default("ALUNO") // ALUNO | PROFESSOR | ADMIN
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  aluno     Aluno?
+  professor Professor?
+  tokens    RefreshToken[]
+  resetTokens PasswordResetToken[]
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// ─── Academic ─────────────────────────────────────────────────────────────────
+
+model Aluno {
+  id             String   @id @default(cuid())
+  ra             String   @unique
+  name           String
+  phone          String?
+  address        String?
+  birthDate      String?
+  cpf            String?
+  status         String   @default("ATIVO") // ATIVO | INATIVO | TRANCADO | CONCLUIDO
+  enrollmentDate DateTime @default(now())
+  semestre       Int      @default(1)
+  moduloInicial  Int      @default(1)
+  curso          String   @default("Bacharelado em Teologia")
+  photo          String?
+
+  userId  String @unique
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  matriculas    Matricula[]
+  pagamentos    Pagamento[]
+  documentos    Documento[]
+  solicitacoes  Solicitacao[]
+  checkins      Checkin[]
+  certificados  Certificado[]
+}
+
+model Professor {
+  id    String  @id @default(cuid())
+  name  String
+  title String?
+
+  userId       String         @unique
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  disciplinas  Disciplina[]
+  comunicados  Comunicado[]
+}
+
+model Disciplina {
+  id       String @id @default(cuid())
+  name     String
+  code     String @unique
+  credits  Int    @default(4)
+  schedule String @default("")
+  room     String @default("")
+  semester Int    @default(1)
+
+  professorId  String
+  professor    Professor    @relation(fields: [professorId], references: [id])
+  matriculas   Matricula[]
+  materiais    Material[]
+  eventos      Evento[]
+  comunicados  Comunicado[]
+}
+
+model Matricula {
+  id       String @id @default(cuid())
+  year     Int
+  semester Int
+  status   String @default("EM_ANDAMENTO") // EM_ANDAMENTO | APROVADO | REPROVADO | TRANCADO
+
+  alunoId      String
+  aluno        Aluno      @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  disciplinaId String
+  disciplina   Disciplina @relation(fields: [disciplinaId], references: [id])
+
+  notas    Nota[]
+  checkins Checkin[]
+
+  @@unique([alunoId, disciplinaId, year, semester])
+}
+
+model Nota {
+  id     String @id @default(cuid())
+  numero Int    // 1, 2, 3
+  valor  Float
+
+  matriculaId String
+  matricula   Matricula @relation(fields: [matriculaId], references: [id], onDelete: Cascade)
+
+  @@unique([matriculaId, numero])
+}
+
+// ─── Financial ────────────────────────────────────────────────────────────────
+
+model Pagamento {
+  id         String   @id @default(cuid())
+  mes        Int
+  ano        Int
+  valor      Float    @default(350.0)
+  vencimento String
+  pago       Boolean  @default(false)
+  paidAt     String?
+  metodo     String?  // PIX | BOLETO
+
+  alunoId String
+  aluno   Aluno  @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+}
+
+// ─── Documents ────────────────────────────────────────────────────────────────
+
+model Documento {
+  id        String   @id @default(cuid())
+  name      String
+  category  String
+  type      String   // pdf | img
+  url       String   @default("")
+  size      String   @default("0 KB")
+  status    String   @default("PENDENTE") // PENDENTE | APROVADO | REJEITADO
+  createdAt DateTime @default(now())
+
+  alunoId String
+  aluno   Aluno  @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+}
+
+// ─── Requests ─────────────────────────────────────────────────────────────────
+
+model Solicitacao {
+  id          String   @id @default(cuid())
+  protocol    String   @unique
+  type        String
+  subject     String?
+  description String
+  status      String   @default("PENDENTE") // PENDENTE | EM_ANALISE | CONCLUIDO | REJEITADO
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  alunoId String
+  aluno   Aluno  @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+}
+
+// ─── Materials ────────────────────────────────────────────────────────────────
+
+model Material {
+  id        String   @id @default(cuid())
+  title     String
+  type      String   // pdf | video | audio
+  url       String   @default("")
+  size      String?
+  duration  String?
+  createdAt DateTime @default(now())
+
+  disciplinaId String
+  disciplina   Disciplina @relation(fields: [disciplinaId], references: [id])
+}
+
+// ─── Calendar ─────────────────────────────────────────────────────────────────
+
+model Evento {
+  id   String @id @default(cuid())
+  title String
+  date  String
+  time  String @default("Todo o dia")
+  type  String // exam | event | deadline | academic | holiday
+
+  disciplinaId String?
+  disciplina   Disciplina? @relation(fields: [disciplinaId], references: [id])
+}
+
+// ─── Comunicados ──────────────────────────────────────────────────────────────
+
+model Comunicado {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  priority    String   @default("info") // info | aviso | urgente
+  createdAt   DateTime @default(now())
+
+  professorId  String
+  professor    Professor   @relation(fields: [professorId], references: [id], onDelete: Cascade)
+  disciplinaId String?
+  disciplina   Disciplina? @relation(fields: [disciplinaId], references: [id])
+}
+
+// ─── Certificados ─────────────────────────────────────────────────────────────
+
+model Certificado {
+  id           String   @id @default(cuid())
+  tipo         String   // conclusao | participacao | extensao | honra
+  titulo       String
+  descricao    String?
+  cargaHoraria Int?
+  issueDate    String
+  codigoVerif  String   @unique
+  createdAt    DateTime @default(now())
+
+  alunoId String
+  aluno   Aluno  @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+}
+
+// ─── Check-in ─────────────────────────────────────────────────────────────────
+
+model Checkin {
+  id        String   @id @default(cuid())
+  checkedAt DateTime @default(now())
+  status    String   @default("CONFIRMADO") // CONFIRMADO | AUSENTE
+
+  alunoId     String
+  aluno       Aluno     @relation(fields: [alunoId], references: [id], onDelete: Cascade)
+  matriculaId String
+  matricula   Matricula @relation(fields: [matriculaId], references: [id])
+}

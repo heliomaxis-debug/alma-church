@@ -1,0 +1,39 @@
+# Dependências
+node_modules/
+backend/node_modules/
+
+# Build
+.next/
+dist/
+backend/dist/
+
+# Variáveis de ambiente (SEGREDOS — nunca commitar)
+.env
+.env.local
+.env*.local
+backend/.env
+backend/.env.local
+
+# Banco SQLite local
+*.db
+*.db-journal
+backend/prisma/dev.db*
+backend/prisma/*.db
+backend/prisma/*.db-backup*
+backend/prisma/dev.db.backup*
+
+# Dados pessoais dos alunos (LGPD — nunca commitar)
+backend/prisma/seed-data.json
+backend/importar_alunos.py
+msg_*.json
+test_msg.json
+r1.json
+r2.json
+r3.json
+rotinas_setup.json
+
+# Logs e temporários
+*.log
+.DS_Store
+Thumbs.db
+.vercel
