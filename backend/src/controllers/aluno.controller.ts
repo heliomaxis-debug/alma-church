@@ -195,8 +195,8 @@ const checkinSchema = z.object({
 })
 
 // ── Configuração da geolocalização da igreja (ajustável por env) ──
-const CHURCH_LAT = parseFloat(process.env.CHURCH_LAT || '-20.2876')   // R. Dom Pedro II, 900 — Cariacica/ES
-const CHURCH_LNG = parseFloat(process.env.CHURCH_LNG || '-40.4192')
+const CHURCH_LAT = parseFloat(process.env.CHURCH_LAT || '-20.3463571')   // R. Dom Pedro II, 900 — Cruzeiro do Sul, Cariacica/ES (CEP 29144-080)
+const CHURCH_LNG = parseFloat(process.env.CHURCH_LNG || '-40.3964872')
 const CHECKIN_RADIUS_M = parseFloat(process.env.CHECKIN_RADIUS_M || '300')  // raio permitido em metros
 const GEO_REQUIRED = process.env.GEO_CHECKIN !== 'false'  // por padrão, exige geolocalização
 
