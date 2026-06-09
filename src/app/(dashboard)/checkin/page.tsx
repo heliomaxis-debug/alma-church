@@ -46,10 +46,11 @@ export default function CheckinPage() {
 
   function flash(text: string, ok: boolean) {
     setMsg({ text, ok })
-    setTimeout(() => setMsg(null), 5000)
+    if (ok) setTimeout(() => setMsg(null), 6000)  // sucesso some sozinho; erro fica até nova tentativa
   }
 
   async function handleCheckin(matriculaId: string) {
+    setMsg(null)
     setCheckingIn(matriculaId)
     setLocating(true)
     try {
@@ -74,13 +75,6 @@ export default function CheckinPage() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto animate-fade-in">
-      {/* Toast */}
-      {msg && (
-        <div className={`fixed bottom-6 right-6 z-50 px-5 py-3 rounded-2xl shadow-lg text-sm font-medium text-white flex items-center gap-2 max-w-sm ${msg.ok ? 'bg-green-600' : 'bg-red-500'}`}>
-          {msg.ok ? <CheckCircle size={15} className="flex-shrink-0" /> : <AlertTriangle size={15} className="flex-shrink-0" />} {msg.text}
-        </div>
-      )}
-
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
         {[
@@ -132,9 +126,22 @@ export default function CheckinPage() {
           )}
         </button>
 
-        <p className="text-[11px] mt-5 max-w-xs mx-auto" style={{ color: 'rgba(255,255,255,0.35)' }}>
-          Ao tocar no botão, seu navegador pedirá permissão de localização. Toque em "Permitir".
-        </p>
+        {/* Alerta de resultado — destacado dentro do card */}
+        {msg ? (
+          <div className="mt-6 mx-auto max-w-md rounded-2xl px-5 py-4 flex items-center gap-3 text-left animate-fade-in"
+            style={msg.ok
+              ? { background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.4)' }
+              : { background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.4)' }}>
+            {msg.ok
+              ? <CheckCircle size={24} className="flex-shrink-0" style={{ color: '#4ade80' }} />
+              : <AlertTriangle size={24} className="flex-shrink-0" style={{ color: '#f87171' }} />}
+            <p className="text-sm font-medium" style={{ color: msg.ok ? '#bbf7d0' : '#fecaca' }}>{msg.text}</p>
+          </div>
+        ) : (
+          <p className="text-[11px] mt-5 max-w-xs mx-auto" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            Ao tocar no botão, seu navegador pedirá permissão de localização. Toque em "Permitir".
+          </p>
+        )}
       </div>
 
       {/* Lista de manuais (presença individual) */}
