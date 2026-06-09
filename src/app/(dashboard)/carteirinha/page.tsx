@@ -50,13 +50,15 @@ export default function CarteirinhaPage() {
             className="relative w-full h-full transition-transform duration-700"
             style={{
               transformStyle: 'preserve-3d',
+              WebkitTransformStyle: 'preserve-3d',
               transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+              WebkitTransform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
             }}
           >
             {/* Front */}
             <div
               className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
-              style={{ backfaceVisibility: 'hidden', background: 'linear-gradient(135deg, #071B34 0%, #0d2d50 60%, #071B34 100%)' }}
+              style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', background: 'linear-gradient(135deg, #071B34 0%, #0d2d50 60%, #071B34 100%)' }}
             >
               {/* Pattern */}
               <div
@@ -144,7 +146,9 @@ export default function CarteirinhaPage() {
               className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
               style={{
                 backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden',
                 transform: 'rotateY(180deg)',
+                WebkitTransform: 'rotateY(180deg)',
                 background: 'linear-gradient(135deg, #0d2d50 0%, #071B34 100%)',
               }}
             >
