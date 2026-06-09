@@ -238,6 +238,9 @@ model Checkin {
   id        String   @id @default(cuid())
   checkedAt DateTime @default(now())
   status    String   @default("CONFIRMADO") // CONFIRMADO | AUSENTE
+  lat       Float?   // localização do registro (geolocalização)
+  lng       Float?
+  distancia Float?   // distância em metros até a igreja no momento do check-in
 
   alunoId     String
   aluno       Aluno     @relation(fields: [alunoId], references: [id], onDelete: Cascade)

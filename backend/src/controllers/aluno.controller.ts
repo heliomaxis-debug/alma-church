@@ -188,7 +188,27 @@ export async function getCheckins(req: AuthRequest, res: Response) {
   res.json(checkins)
 }
 
-const checkinSchema = z.object({ matriculaId: z.string() })
+const checkinSchema = z.object({
+  matriculaId: z.string(),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
+})
+
+// ── Configuração da geolocalização da igreja (ajustável por env) ──
+const CHURCH_LAT = parseFloat(process.env.CHURCH_LAT || '-20.2876')   // R. Dom Pedro II, 900 — Cariacica/ES
+const CHURCH_LNG = parseFloat(process.env.CHURCH_LNG || '-40.4192')
+const CHECKIN_RADIUS_M = parseFloat(process.env.CHECKIN_RADIUS_M || '300')  // raio permitido em metros
+const GEO_REQUIRED = process.env.GEO_CHECKIN !== 'false'  // por padrão, exige geolocalização
+
+/** Distância em metros entre dois pontos (fórmula de Haversine). */
+function distanciaMetros(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371000
+  const rad = (d: number) => (d * Math.PI) / 180
+  const dLat = rad(lat2 - lat1)
+  const dLng = rad(lng2 - lng1)
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLng / 2) ** 2
+  return 2 * R * Math.asin(Math.sqrt(a))
+}
 
 export async function createCheckin(req: AuthRequest, res: Response) {
   const aluno = await getAluno(req.userId!)
@@ -200,8 +220,26 @@ export async function createCheckin(req: AuthRequest, res: Response) {
   const mat = await prisma.matricula.findFirst({ where: { id: parsed.data.matriculaId, alunoId: aluno.id } })
   if (!mat) { res.status(404).json({ error: 'Matrícula não encontrada' }); return }
 
+  // ── Validação de geolocalização ──
+  const { lat, lng } = parsed.data
+  let distancia: number | null = null
+
+  if (GEO_REQUIRED) {
+    if (lat == null || lng == null) {
+      res.status(400).json({ error: 'Ative a localização do dispositivo para registrar presença.' }); return
+    }
+    distancia = distanciaMetros(lat, lng, CHURCH_LAT, CHURCH_LNG)
+    if (distancia > CHECKIN_RADIUS_M) {
+      res.status(403).json({
+        error: `Você precisa estar na igreja para registrar presença. Você está a ${Math.round(distancia)}m do local (máximo permitido: ${CHECKIN_RADIUS_M}m).`,
+      }); return
+    }
+  } else if (lat != null && lng != null) {
+    distancia = distanciaMetros(lat, lng, CHURCH_LAT, CHURCH_LNG)
+  }
+
   const checkin = await prisma.checkin.create({
-    data: { alunoId: aluno.id, matriculaId: mat.id, status: 'CONFIRMADO' },
+    data: { alunoId: aluno.id, matriculaId: mat.id, status: 'CONFIRMADO', lat, lng, distancia },
   })
   res.status(201).json(checkin)
 }

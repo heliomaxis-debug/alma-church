@@ -102,8 +102,8 @@ export const api = {
       request<any>('/aluno/solicitacoes', { method: 'POST', body: JSON.stringify(data) }),
     materiais: () => request<any[]>('/aluno/materiais'),
     checkins: () => request<any[]>('/aluno/checkins'),
-    criarCheckin: (matriculaId: string) =>
-      request<any>('/aluno/checkins', { method: 'POST', body: JSON.stringify({ matriculaId }) }),
+    criarCheckin: (matriculaId: string, geo?: { lat: number; lng: number }) =>
+      request<any>('/aluno/checkins', { method: 'POST', body: JSON.stringify({ matriculaId, ...geo }) }),
     carteirinha: () => request<any>('/aluno/carteirinha'),
     comunicados: () => request<any[]>('/aluno/comunicados'),
     certificados: () => request<any[]>('/aluno/certificados'),
