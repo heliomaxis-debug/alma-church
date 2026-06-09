@@ -46,19 +46,16 @@ export default function CarteirinhaPage() {
           style={{ perspective: 1000, width: 380, height: 240 }}
           onClick={() => setFlipped(!flipped)}
         >
-          <div
-            className="relative w-full h-full transition-transform duration-700"
-            style={{
-              transformStyle: 'preserve-3d',
-              WebkitTransformStyle: 'preserve-3d',
-              transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-              WebkitTransform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-            }}
-          >
+          <div className="relative w-full h-full">
             {/* Front */}
             <div
-              className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
-              style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden', background: 'linear-gradient(135deg, #071B34 0%, #0d2d50 60%, #071B34 100%)' }}
+              className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl transition-all duration-500"
+              style={{
+                opacity: flipped ? 0 : 1,
+                pointerEvents: flipped ? 'none' : 'auto',
+                transform: flipped ? 'scale(0.96)' : 'scale(1)',
+                background: 'linear-gradient(135deg, #071B34 0%, #0d2d50 60%, #071B34 100%)',
+              }}
             >
               {/* Pattern */}
               <div
@@ -143,12 +140,11 @@ export default function CarteirinhaPage() {
 
             {/* Back */}
             <div
-              className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl"
+              className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl transition-all duration-500"
               style={{
-                backfaceVisibility: 'hidden',
-                WebkitBackfaceVisibility: 'hidden',
-                transform: 'rotateY(180deg)',
-                WebkitTransform: 'rotateY(180deg)',
+                opacity: flipped ? 1 : 0,
+                pointerEvents: flipped ? 'auto' : 'none',
+                transform: flipped ? 'scale(1)' : 'scale(0.96)',
                 background: 'linear-gradient(135deg, #0d2d50 0%, #071B34 100%)',
               }}
             >
