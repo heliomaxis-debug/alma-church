@@ -22,7 +22,7 @@ app.use(cors({
       'http://localhost:3000',
       process.env.FRONTEND_URL,
     ].filter(Boolean)
-    if (!origin || allowed.includes(origin) || /\.ngrok(-free)?\.dev$/.test(origin) || /\.ngrok\.io$/.test(origin)) {
+    if (!origin || allowed.includes(origin) || /\.railway\.app$/.test(origin) || /\.ngrok(-free)?\.dev$/.test(origin) || /\.ngrok\.io$/.test(origin)) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
