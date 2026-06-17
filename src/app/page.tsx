@@ -107,7 +107,7 @@ function Navbar() {
     { label: 'Início', href: '#inicio' },
     { label: 'Sobre', href: '#sobre' },
     { label: 'Ministérios', href: '#ministerios' },
-    { label: 'Acompanhe', href: '#midia' },
+    { label: 'Torre de Oração', href: '/torre-de-oracao' },
     { label: 'Agenda', href: '#agenda' },
     { label: 'Cultos', href: '#cultos' },
     { label: 'Contato', href: '#contato' },

@@ -247,3 +247,16 @@ model Checkin {
   matriculaId String
   matricula   Matricula @relation(fields: [matriculaId], references: [id])
 }
+
+// ─── Torre de Oração ──────────────────────────────────────────────────────────
+
+model OracaoInscricao {
+  id        String   @id @default(cuid())
+  nome      String
+  whatsapp  String
+  dia       String   // Domingo | Segunda | Terça | Quarta | Quinta | Sexta | Sábado
+  horario   String   // 03:00 | 05:30 | 15:00 | 22:00
+  createdAt DateTime @default(now())
+
+  @@index([dia, horario])
+}

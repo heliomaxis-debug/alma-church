@@ -179,5 +179,8 @@ export const api = {
   public: {
     verificarCertificado: (codigo: string) =>
       request<any>(`/public/certificados/${codigo}`),
+    torreOracao: () => request<any[]>('/public/torre-oracao'),
+    inscreverOracao: (data: { nome: string; whatsapp: string; dia: string; horario: string }) =>
+      request<any>('/public/torre-oracao', { method: 'POST', body: JSON.stringify(data) }),
   },
 }
