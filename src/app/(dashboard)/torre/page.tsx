@@ -19,7 +19,7 @@ const HORARIOS = [
 export default function TorrePortalPage() {
   const { user } = useAuth()
   const nomeUsuario = user?.aluno?.name ?? user?.professor?.name ?? ''
-  const telUsuario = user?.aluno?.phone ?? ''
+  const telUsuario = (user?.aluno as any)?.phone ?? ''
 
   const [inscricoes, setInscricoes] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
