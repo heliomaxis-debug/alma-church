@@ -434,3 +434,21 @@ export async function editarAluno(req: Request, res: Response) {
   })
   res.json(updated)
 }
+
+// ─── Torre de Oração (admin) ──────────────────────────────────────────────────
+
+export async function getTorreOracao(_req: Request, res: Response) {
+  const inscricoes = await prisma.oracaoInscricao.findMany({
+    orderBy: { createdAt: 'desc' },
+  })
+  res.json(inscricoes)
+}
+
+export async function deletarInscricaoOracao(req: Request, res: Response) {
+  try {
+    await prisma.oracaoInscricao.delete({ where: { id: req.params.id as string } })
+    res.json({ ok: true })
+  } catch {
+    res.status(404).json({ error: 'Inscrição não encontrada' })
+  }
+}

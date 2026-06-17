@@ -175,6 +175,10 @@ export const api = {
       request<any>('/admin/certificados', { method: 'POST', body: JSON.stringify(data) }),
     deletarCertificado: (id: string) =>
       request<any>(`/admin/certificados/${id}`, { method: 'DELETE' }),
+    // Torre de Oração
+    torreOracao: () => request<any[]>('/admin/torre-oracao'),
+    deletarInscricaoOracao: (id: string) =>
+      request<any>(`/admin/torre-oracao/${id}`, { method: 'DELETE' }),
   },
   public: {
     verificarCertificado: (codigo: string) =>

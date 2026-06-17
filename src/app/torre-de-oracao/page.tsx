@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState, useCallback } from 'react'
 import {
   ArrowLeft, Moon, Sunrise, Sun, Sunset, Send, Loader2,
-  Users, Heart, Flame, CheckCircle, BookOpen,
+  Users, Heart, Flame, CheckCircle, BookOpen, Eye, Clock, Handshake,
 } from 'lucide-react'
 import { api } from '@/lib/api'
 
@@ -118,8 +118,62 @@ export default function TorreOracaoPage() {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* A Torre Representa */}
       <section className="px-5 sm:px-6 pb-16">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] mb-2" style={{ color: GOLD }}>O que vivemos</p>
+            <h2 className="text-3xl sm:text-4xl font-black">A Torre Representa</h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { icon: Eye, t: 'Vigilância Espiritual', d: 'Permanecer de prontidão, atentos ao que Deus está fazendo e ao que o inimigo tenta realizar.' },
+              { icon: Clock, t: 'Perseverança em Oração', d: 'Orar sem desanimar, mantendo a constância e a fé mesmo quando não vemos resultados imediatos.' },
+              { icon: BookOpen, t: 'Sensibilidade à Voz de Deus', d: 'Cultivar um coração quieto e disponível para ouvir a direção do Espírito Santo.' },
+              { icon: Flame, t: 'Fé e Expectativa', d: 'Crer que Deus responde à oração e aguardar com expectativa as respostas que Ele preparou.' },
+            ].map(({ icon: Icon, t, d }) => (
+              <div key={t} className="rounded-2xl p-5"
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(200,163,95,0.15)' }}>
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center mb-3" style={{ background: 'rgba(200,163,95,0.12)' }}>
+                  <Icon size={17} style={{ color: GOLD }} />
+                </div>
+                <h3 className="font-bold text-sm mb-1.5">{t}</h3>
+                <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>{d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Nosso Propósito */}
+      <section className="px-5 sm:px-6 pb-16">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] mb-2" style={{ color: GOLD }}>Por que oramos</p>
+            <h2 className="text-3xl sm:text-4xl font-black">Nosso Propósito</h2>
+            <p className="text-sm mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>Cada minuto de oração tem um propósito eterno.</p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {[
+              { icon: Heart, t: 'Buscar a presença de Deus' },
+              { icon: BookOpen, t: 'Fortalecer uma cultura de oração' },
+              { icon: Handshake, t: 'Promover unidade na igreja' },
+              { icon: Flame, t: 'Ouvir a direção do Espírito Santo' },
+            ].map(({ icon: Icon, t }) => (
+              <div key={t} className="flex items-center gap-3 rounded-2xl px-5 py-4"
+                style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(200,163,95,0.12)' }}>
+                  <Icon size={16} style={{ color: GOLD }} />
+                </div>
+                <p className="text-sm font-medium">{t}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="px-5 sm:px-6 pb-10">
         <div className="max-w-4xl mx-auto grid grid-cols-3 gap-4">
           {[['7', 'Dias por semana'], ['4', 'Horários diários'], [String(total), 'Intercessores']].map(([v, l]) => (
             <div key={l} className="rounded-2xl p-5 text-center"
@@ -128,6 +182,29 @@ export default function TorreOracaoPage() {
               <p className="text-[11px] sm:text-xs mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>{l}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Regras */}
+      <section className="px-5 sm:px-6 pb-16">
+        <div className="max-w-2xl mx-auto">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.25em] mb-6" style={{ color: 'rgba(255,255,255,0.5)' }}>
+            Uma igreja buscando a Deus dia e noite
+          </p>
+          <div className="space-y-3">
+            {[
+              'São 4 horários de oração todos os dias: 03h, 05h30, 15h e 22h',
+              'Cada pessoa pode escolher um ou mais horários',
+              'Seu nome ficará visível na grade pública de oração',
+              'Mais de uma pessoa pode participar do mesmo horário',
+              'O compromisso é semanal e recorrente',
+            ].map(r => (
+              <div key={r} className="flex items-center gap-3">
+                <CheckCircle size={16} className="flex-shrink-0" style={{ color: GOLD }} />
+                <p className="text-sm" style={{ color: 'rgba(255,255,255,0.75)' }}>{r}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

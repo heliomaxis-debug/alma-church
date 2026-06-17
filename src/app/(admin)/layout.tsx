@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   LayoutDashboard, Users, CreditCard, ClipboardList, BookOpen,
-  LogOut, ChevronLeft, ChevronRight, X, Menu, Bell, Search, ChevronDown, GraduationCap, Calendar, CalendarDays, BarChart3, Award,
+  LogOut, ChevronLeft, ChevronRight, X, Menu, Bell, Search, ChevronDown, GraduationCap, Calendar, CalendarDays, BarChart3, Award, Flame,
 } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { cn } from '@/lib/utils'
@@ -21,6 +21,7 @@ const navItems = [
   { href: '/admin/eventos', label: 'Eventos', icon: CalendarDays },
   { href: '/admin/relatorios', label: 'Relatórios', icon: BarChart3 },
   { href: '/admin/certificados', label: 'Certificados', icon: Award },
+  { href: '/admin/torre', label: 'Torre de Oração', icon: Flame },
 ]
 
 const pageTitles: Record<string, { title: string; subtitle: string }> = {
@@ -34,6 +35,7 @@ const pageTitles: Record<string, { title: string; subtitle: string }> = {
   '/admin/eventos': { title: 'Eventos', subtitle: 'Gerenciar agenda e calendário acadêmico' },
   '/admin/relatorios': { title: 'Relatórios', subtitle: 'Analytics e indicadores da instituição' },
   '/admin/certificados': { title: 'Certificados', subtitle: 'Emissão e gestão de certificados' },
+  '/admin/torre': { title: 'Torre de Oração', subtitle: 'Inscritos na escala de oração' },
 }
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

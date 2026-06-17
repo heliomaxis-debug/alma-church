@@ -6,7 +6,7 @@ import {
   Home, BookOpen, CreditCard, Calendar, FileText,
   ClipboardList, IdCard, FolderOpen, CheckSquare,
   User, Settings, LogOut, ChevronLeft, ChevronRight, X,
-  Library, CalendarDays, MessageCircle, Megaphone, Award,
+  Library, CalendarDays, MessageCircle, Megaphone, Award, Flame,
 } from 'lucide-react'
 import { useSidebar } from '@/contexts/SidebarContext'
 import { useAuth } from '@/contexts/AuthContext'
@@ -26,6 +26,7 @@ const mainNavItems = [
   { href: '/comunicados', label: 'Comunicados', icon: Megaphone, group: 'main' },
   { href: '/certificados', label: 'Certificados', icon: Award, group: 'main' },
   { href: '/checkin', label: 'Check-in', icon: CheckSquare, group: 'main' },
+  { href: '/torre', label: 'Torre de Oração', icon: Flame, group: 'main' },
   { href: '/comunidade', label: 'Comunidade', icon: MessageCircle, group: 'main' },
 ]
 

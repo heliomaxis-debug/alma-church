@@ -11,6 +11,7 @@ import {
   getEventos, criarEvento, deletarEvento,
   getCertificados, emitirCertificado, deletarCertificado,
   editarAluno,
+  getTorreOracao, deletarInscricaoOracao,
 } from '../controllers/admin.controller'
 
 export const adminRouter = Router()
@@ -57,3 +58,7 @@ adminRouter.delete('/eventos/:id', deletarEvento)
 adminRouter.get('/certificados', getCertificados)
 adminRouter.post('/certificados', emitirCertificado)
 adminRouter.delete('/certificados/:id', deletarCertificado)
+
+// Torre de Oração
+adminRouter.get('/torre-oracao', getTorreOracao)
+adminRouter.delete('/torre-oracao/:id', deletarInscricaoOracao)
