@@ -89,14 +89,17 @@ export default function TorreOracaoPage() {
             style={{ background: 'rgba(200,163,95,0.12)', border: '1px solid rgba(200,163,95,0.3)' }}>
             <Flame size={28} style={{ color: GOLD }} />
           </div>
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] mb-4" style={{ color: GOLD }}>Alma Church</p>
-          <h1 className="text-5xl sm:text-7xl font-black mb-2 leading-none">Torre de</h1>
-          <h1 className="text-5xl sm:text-7xl font-black mb-5 leading-none"
-            style={{ background: 'linear-gradient(135deg, #C8A35F, #E8C47A, #C8A35F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.4em] mb-4" style={{ color: GOLD }}>Alma Church</p>
+          <h1 className="text-6xl sm:text-8xl font-bold mb-1 leading-[0.95] uppercase tracking-tight"
+            style={{ fontFamily: 'Georgia, "Times New Roman", serif' }}>
+            Torre de
+          </h1>
+          <h1 className="text-6xl sm:text-8xl font-bold mb-6 leading-[0.95] uppercase tracking-tight"
+            style={{ fontFamily: 'Georgia, "Times New Roman", serif', background: 'linear-gradient(135deg, #C8A35F, #E8C47A, #C8A35F)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             Oração
           </h1>
-          <p className="text-sm sm:text-base tracking-[0.2em] uppercase mb-8" style={{ color: 'rgba(255,255,255,0.6)' }}>
-            7 Dias · 4 Horários · Oração Contínua
+          <p className="text-base sm:text-xl tracking-[0.25em] mb-8" style={{ fontFamily: 'Georgia, serif', color: 'rgba(255,255,255,0.7)' }}>
+            7 Dias · 24 Horas · Oração Contínua
           </p>
 
           <div className="inline-block rounded-2xl px-6 py-4 mb-8 max-w-md"
